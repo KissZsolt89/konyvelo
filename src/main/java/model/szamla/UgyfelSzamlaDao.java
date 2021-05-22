@@ -1,2 +1,4 @@
-package model.szamla;public class UgyfelSzamlaDao {
+package model.szamla;
+
+public class UgyfelSzamlaDao {
 }

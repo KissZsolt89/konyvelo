@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="202.0" prefWidth="554.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.UgyfelController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="235.0" prefWidth="554.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.UgyfelController">
    <children>
-      <GridPane layoutX="32.0" layoutY="29.0" prefHeight="90.0" prefWidth="491.0">
+      <GridPane layoutX="32.0" layoutY="67.0" prefHeight="90.0" prefWidth="491.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="241.0" minWidth="10.0" prefWidth="68.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="426.0" minWidth="10.0" prefWidth="423.0" />
@@ -37,24 +37,24 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <TextField GridPane.columnIndex="1" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="nevTextField" GridPane.columnIndex="1" />
+            <TextField fx:id="adoszamTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="cimTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>
-      <Button layoutX="407.0" layoutY="143.0" mnemonicParsing="false" onAction="#megseAction" prefHeight="34.0" prefWidth="116.0" text="Mégse">
+      <Button layoutX="407.0" layoutY="178.0" mnemonicParsing="false" onAction="#megseAction" prefHeight="34.0" prefWidth="116.0" text="Mégse">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <Button layoutX="277.0" layoutY="143.0" mnemonicParsing="false" onAction="#mentesAction" prefHeight="34.0" prefWidth="116.0" text="Mentés">
+      <Button layoutX="279.0" layoutY="178.0" mnemonicParsing="false" onAction="#mentesAction" prefHeight="34.0" prefWidth="116.0" text="Mentés">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <Label layoutX="32.0" layoutY="152.0" text="Név megadása kötelező!" textFill="RED">
+      <Label fx:id="ugyfelLabel" layoutX="219.0" layoutY="23.0" text="Új/módosítás">
          <font>
-            <Font size="14.0" />
+            <Font size="20.0" />
          </font>
       </Label>
    </children>

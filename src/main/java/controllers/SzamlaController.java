@@ -25,7 +25,10 @@ public class SzamlaController {
 
     public void initdata(String ugyfelnev) {
         this.ugyfelLabel.setText(ugyfelnev);
+    }
 
+    @FXML
+    public void initialize() {
         ObservableList<String> afaLista =
                 FXCollections.observableArrayList("27%", "12%","5%", "AM");
         this.afaChoiceBox.setItems(afaLista);
@@ -33,9 +36,7 @@ public class SzamlaController {
     }
 
     public void megseAction(ActionEvent actionEvent) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/indito.fxml"));
-        Parent root = fxmlLoader.load();
-        fxmlLoader.<InditoController>getController().initdata();
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/indito.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
