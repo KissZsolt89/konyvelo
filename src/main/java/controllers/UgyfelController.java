@@ -1,8 +1,5 @@
 package controllers;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import guice.PersistenceModule;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
