@@ -9,15 +9,15 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="501.0" prefWidth="694.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.UgyfelekController">
    <children>
+      <Button fx:id="ujButton" layoutX="81.0" layoutY="441.0" mnemonicParsing="false" onAction="#ujAction" prefHeight="34.0" prefWidth="116.0" text="Új">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
       <Button fx:id="modositasButton" layoutX="221.0" layoutY="441.0" mnemonicParsing="false" onAction="#modositasAction" prefHeight="34.0" prefWidth="116.0" text="Módosítás">
          <font>
             <Font size="14.0" />
          </font></Button>
       <Button fx:id="torlesButton" layoutX="361.0" layoutY="441.0" mnemonicParsing="false" onAction="#torlesAction" prefHeight="34.0" prefWidth="116.0" text="Törlés">
-         <font>
-            <Font size="14.0" />
-         </font></Button>
-      <Button fx:id="ujButton" layoutX="81.0" layoutY="441.0" mnemonicParsing="false" onAction="#ujAction" prefHeight="34.0" prefWidth="116.0" text="Új">
          <font>
             <Font size="14.0" />
          </font></Button>

@@ -35,8 +35,9 @@ public class UgyfelekController {
 
     private UgyfelDao ugyfelDao;
 
-    public void initdata(UgyfelDao ugyfelDao) {
-        this.ugyfelDao = ugyfelDao;
+    @FXML
+    public void initialize() {
+        ugyfelDao = UgyfelDao.getInstance();
         initializeTable();
     }
 
@@ -60,18 +61,14 @@ public class UgyfelekController {
     }
 
     public void megseAction(ActionEvent actionEvent) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/indito.fxml"));
-        Parent root = fxmlLoader.load();
-        fxmlLoader.<InditoController>getController().initdata(ugyfelDao);
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/indito.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
     }
 
     public void ujAction(ActionEvent actionEvent) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/ugyfel.fxml"));
-        Parent root = fxmlLoader.load();
-        fxmlLoader.<UgyfelController>getController().initdata(ugyfelDao);
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/ugyfel.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
@@ -85,7 +82,7 @@ public class UgyfelekController {
             if (!optionalUgyfel.isEmpty()) {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/ugyfel.fxml"));
                 Parent root = fxmlLoader.load();
-                fxmlLoader.<UgyfelController>getController().initdata(ugyfelDao, optionalUgyfel.get());
+                fxmlLoader.<UgyfelController>getController().initdata(optionalUgyfel.get());
                 Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
                 stage.setScene(new Scene(root));
                 stage.show();
@@ -99,6 +96,7 @@ public class UgyfelekController {
                     ugyfelDao.findByNev(ugyfelekTable.getSelectionModel().getSelectedItem().getNev());
 
             if (!optionalUgyfel.isEmpty()) {
+                Ugyfel torlendoUgyfel = optionalUgyfel.get();
                 ugyfelDao.remove(optionalUgyfel.get());
                 initializeTable();
             }

@@ -35,21 +35,19 @@ public class UgyfelController {
 
     private Ugyfel modositandoUgyfel;
 
-    public void initdata(UgyfelDao ugyfelDao) {
-        this.ugyfelDao = ugyfelDao;
+    @FXML
+    public void initialize() {
+        ugyfelDao = UgyfelDao.getInstance();
         this.ugyfelLabel.setText("Új ügyfél");
     }
 
-    public void initdata(UgyfelDao ugyfelDao, Ugyfel ugyfel) {
-        this.ugyfelDao = ugyfelDao;
+    public void initdata(Ugyfel ugyfel) {
         this.modositandoUgyfel = ugyfel;
         this.ugyfelLabel.setText("Módosítás");
     }
 
     public void megseAction(ActionEvent actionEvent) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/ugyfelek.fxml"));
-        Parent root = fxmlLoader.load();
-        fxmlLoader.<UgyfelekController>getController().initdata(ugyfelDao);
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/ugyfelek.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
@@ -77,9 +75,7 @@ public class UgyfelController {
                 ugyfelDao.update(modositandoUgyfel);
             }
 
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/ugyfelek.fxml"));
-            Parent root = fxmlLoader.load();
-            fxmlLoader.<UgyfelekController>getController().initdata(ugyfelDao);
+            Parent root = FXMLLoader.load(getClass().getResource("/fxml/ugyfelek.fxml"));
             Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();

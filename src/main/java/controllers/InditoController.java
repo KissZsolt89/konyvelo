@@ -25,8 +25,10 @@ public class InditoController {
 
     private UgyfelDao ugyfelDao;
 
-    public void initdata(UgyfelDao ugyfelDao) {
-        this.ugyfelDao = ugyfelDao;
+    @FXML
+    public void initialize() {
+
+        ugyfelDao = UgyfelDao.getInstance();
 
         List<String> ugyfelLista = ugyfelDao.findAllNev();
 
@@ -51,9 +53,7 @@ public class InditoController {
     }
 
     public void ugyfelkezelesAction(ActionEvent actionEvent) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/ugyfelek.fxml"));
-        Parent root = fxmlLoader.load();
-        fxmlLoader.<UgyfelekController>getController().initdata(ugyfelDao);
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/ugyfelek.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
