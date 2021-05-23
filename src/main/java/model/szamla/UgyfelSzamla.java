@@ -18,6 +18,4 @@ public class UgyfelSzamla extends Szamla {
     @ManyToOne
     @JoinColumn(nullable=false)
     private Ugyfel ugyfel;
-
-
 }

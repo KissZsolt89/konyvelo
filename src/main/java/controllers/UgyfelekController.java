@@ -35,6 +35,12 @@ public class UgyfelekController {
 
     private UgyfelDao ugyfelDao;
 
+    private static String honnan;
+
+    public void initdata(String honnan) {
+        UgyfelekController.honnan = honnan;
+    }
+
     @FXML
     public void initialize() {
         ugyfelDao = UgyfelDao.getInstance();
@@ -61,7 +67,7 @@ public class UgyfelekController {
     }
 
     public void megseAction(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/indito.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/" + honnan + ".fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();

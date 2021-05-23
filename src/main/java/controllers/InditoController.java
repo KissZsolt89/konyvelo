@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.stage.Stage;
+import model.szamla.UgyfelSzamlaDao;
 import model.ugyfel.UgyfelDao;
 
 import java.io.IOException;
@@ -21,11 +22,13 @@ public class InditoController {
     private ChoiceBox ugyfelChoiceBox;
 
     private UgyfelDao ugyfelDao;
+    private UgyfelSzamlaDao ugyfelSzamlaDao;
 
     @FXML
     public void initialize() {
 
         ugyfelDao = UgyfelDao.getInstance();
+        ugyfelSzamlaDao = UgyfelSzamlaDao.getInstance();
 
         List<String> ugyfelLista = ugyfelDao.findAllNev();
 
@@ -34,7 +37,7 @@ public class InditoController {
             observableUgyfelLista.addAll(ugyfelLista);
 
             ugyfelChoiceBox.setItems(observableUgyfelLista);
-            this.ugyfelChoiceBox.setValue(observableUgyfelLista.get(0));
+            ugyfelChoiceBox.setValue(observableUgyfelLista.get(0));
         }
     }
 
@@ -50,7 +53,9 @@ public class InditoController {
     }
 
     public void ugyfelkezelesAction(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/ugyfelek.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/ugyfelek.fxml"));
+        Parent root = fxmlLoader.load();
+        fxmlLoader.<UgyfelekController>getController().initdata("indito");
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();

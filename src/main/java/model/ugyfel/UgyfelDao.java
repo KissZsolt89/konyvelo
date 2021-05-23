@@ -1,6 +1,5 @@
 package model.ugyfel;
 
-import com.google.inject.persist.Transactional;
 import jpa.GenericJpaDao;
 
 import javax.persistence.NoResultException;

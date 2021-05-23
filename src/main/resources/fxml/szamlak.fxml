@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="506.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SzamlakController">
+   <children>
+      <Button fx:id="modositasButton" layoutX="691.0" layoutY="448.0" mnemonicParsing="false" onAction="#modositasAction" prefHeight="34.0" prefWidth="116.0" text="Módosítás">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <Button fx:id="torlesButton" layoutX="826.0" layoutY="448.0" mnemonicParsing="false" onAction="#torlesAction" prefHeight="34.0" prefWidth="116.0" text="Törlés">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <Button layoutX="961.0" layoutY="448.0" mnemonicParsing="false" onAction="#megseAction" prefHeight="34.0" prefWidth="116.0" text="Mégse">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <TableView fx:id="szamlakTable" layoutX="23.0" layoutY="70.0" prefHeight="355.0" prefWidth="1054.0">
+        <columns>
+          <TableColumn fx:id="id" prefWidth="64.0" text="ID" />
+            <TableColumn fx:id="irany" prefWidth="75.0" text="Irány" />
+            <TableColumn fx:id="bizonylatszam" prefWidth="130.0" text="Bizonylatszám" />
+            <TableColumn fx:id="partner" prefWidth="165.0" text="Partner" />
+            <TableColumn fx:id="kelte" prefWidth="100.0" text="Kelte" />
+            <TableColumn fx:id="teljesites" prefWidth="102.0" text="Teljesítés" />
+            <TableColumn fx:id="esedekesseg" prefWidth="100.0" text="Esedékesség" />
+            <TableColumn fx:id="fizetesiMod" prefWidth="92.0" text="Fizetési mód" />
+            <TableColumn fx:id="netto" prefWidth="102.0" text="Nettó" />
+            <TableColumn fx:id="afa" prefWidth="95.0" text="ÁFA" />
+            <TableColumn fx:id="brutto" prefWidth="102.0" text="Bruttó" />
+        </columns>
+      </TableView>
+      <Label fx:id="ugyfelLabel" layoutX="506.0" layoutY="25.0" text="Ügyfélnév" textAlignment="CENTER">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>
