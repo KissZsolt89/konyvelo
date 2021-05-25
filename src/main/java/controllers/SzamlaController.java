@@ -11,13 +11,21 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import model.szamla.UgyfelSzamla;
 import model.szamla.UgyfelSzamlaDao;
+import model.ugyfel.Ugyfel;
 import model.ugyfel.UgyfelDao;
 
 import java.io.IOException;
 import java.util.List;
 
 public class SzamlaController {
+
+    private Ugyfel aktualisUgyfel;
+    private UgyfelSzamla modositandoUgyfelSzamla;
+
+    private UgyfelDao ugyfelDao;
+    private UgyfelSzamlaDao ugyfelSzamlaDao;
 
     @FXML
     private Label ugyfelLabel;
@@ -53,6 +61,9 @@ public class SzamlaController {
     private ChoiceBox fokonyviSzamChoiceBox;
 
     @FXML
+    private TextField megnevezesTextField;
+
+    @FXML
     private ChoiceBox afaChoiceBox;
 
     @FXML
@@ -64,17 +75,49 @@ public class SzamlaController {
     @FXML
     private TextField bruttoTextField;
 
-    private UgyfelDao ugyfelDao;
-    private UgyfelSzamlaDao ugyfelSzamlaDao;
+    @FXML
+    private Label hibasAdatLabel;
 
-    public void initdata(String ugyfelnev) {
-        this.ugyfelLabel.setText(ugyfelnev);
+    public void initdata(Ugyfel ugyfel) {
+        aktualisUgyfel = ugyfel;
+        ugyfelLabel.setText(aktualisUgyfel.getNev());
+    }
+
+    public void initdata(UgyfelSzamla ugyfelSzamla) {
+        modositandoUgyfelSzamla = ugyfelSzamla;
+        ugyfelLabel.setText("Módosítás");
+
+        if (modositandoUgyfelSzamla.getBejovo()) {
+            bejovoRadioButton.setSelected(true);
+            kimenoRadioButton.setSelected(false);
+        }
+        else {
+            bejovoRadioButton.setSelected(false);
+            kimenoRadioButton.setSelected(true);
+        }
+        bizonylatszamTextField.setText(modositandoUgyfelSzamla.getBizonylatszam());
+        kelteDatePicker.setValue(modositandoUgyfelSzamla.getKelte());
+        teljesitesDatePicker.setValue(modositandoUgyfelSzamla.getTeljesites());
+        esedekessegDatePicker.setValue(modositandoUgyfelSzamla.getEsedekesseg());
+        partnerChoiceBox.setValue(modositandoUgyfelSzamla.getPartner());
+        fizetesiModChoiceBox.setValue(modositandoUgyfelSzamla.getFizetesiMod());
+        megjegyzesTextField.setText(modositandoUgyfelSzamla.getMegjegyzes());
+        fokonyviSzamChoiceBox.setValue(modositandoUgyfelSzamla.getFokonyviSzam());
+        megnevezesTextField.setText(modositandoUgyfelSzamla.getMegnevezes());
+        afaChoiceBox.setValue(modositandoUgyfelSzamla.getAfaTipus());
+        nettoTextField.setText(Integer.toString(modositandoUgyfelSzamla.getNetto()));
     }
 
     @FXML
     public void initialize() {
         ugyfelDao = UgyfelDao.getInstance();
         ugyfelSzamlaDao = UgyfelSzamlaDao.getInstance();
+
+        if (aktualisUgyfel != null) {
+            ugyfelLabel.setText(aktualisUgyfel.getNev());
+        }
+
+        hibasAdatLabel.setText("");
 
         ObservableList<String> fizetesiModLista =
                 FXCollections.observableArrayList("átutalás", "készpénz");
@@ -85,6 +128,15 @@ public class SzamlaController {
                 FXCollections.observableArrayList("27%", "18%", "5%", "AM");
         afaChoiceBox.setItems(afaLista);
         afaChoiceBox.setValue(afaLista.get(0));
+
+        ObservableList<String> fokonyvLista =
+                FXCollections.observableArrayList(
+                        "1 - izé%",
+                        "2 - mizé",
+                        "3 - hozé",
+                        "4 - mittomén");
+        fokonyviSzamChoiceBox.setItems(fokonyvLista);
+        fokonyviSzamChoiceBox.setValue(fokonyvLista.get(0));
 
         List<String> ugyfelLista = ugyfelDao.findAllNev();
 
@@ -99,7 +151,9 @@ public class SzamlaController {
         afaTextField.textProperty().bind(
                 new StringBinding() {
 
-                    { super.bind(nettoTextField.textProperty(), afaChoiceBox.valueProperty()); }
+                    {
+                        super.bind(nettoTextField.textProperty(), afaChoiceBox.valueProperty());
+                    }
 
                     @Override
                     protected String computeValue() {
@@ -117,15 +171,16 @@ public class SzamlaController {
         bruttoTextField.textProperty().bind(
                 new StringBinding() {
 
-                    { super.bind(nettoTextField.textProperty(), afaTextField.textProperty()); }
+                    {
+                        super.bind(nettoTextField.textProperty(), afaTextField.textProperty());
+                    }
 
                     @Override
                     protected String computeValue() {
                         try {
                             return Integer.toString(Integer.parseInt(nettoTextField.getText())
                                     + Integer.parseInt(afaTextField.getText()));
-                        }
-                        catch (NumberFormatException e) {
+                        } catch (NumberFormatException e) {
                             return "Hibás nettó!";
                         }
                     }
@@ -139,22 +194,67 @@ public class SzamlaController {
         stage.show();
     }
 
-    public void mentesAction(ActionEvent actionEvent) {
-    }
+    public void mentesAction(ActionEvent actionEvent) throws IOException {
 
-    public void szamlakAction(ActionEvent actionEvent) {
-    }
+        if (bizonylatszamTextField.getText().isEmpty()
+                || kelteDatePicker.getValue() == null
+                || teljesitesDatePicker.getValue() == null
+                || esedekessegDatePicker.getValue() == null
+                || partnerChoiceBox.getValue() == null
+                || fizetesiModChoiceBox.getValue() == null
+                || fokonyviSzamChoiceBox.getValue() == null
+                || megnevezesTextField.getText().isEmpty()
+                || afaChoiceBox.getValue() == null
+                || bruttoTextField.getText().equals("Hibás nettó!")) {
 
-    public void fokonyvAction(ActionEvent actionEvent) {
-    }
+            hibasAdatLabel.setText("Hiányzó adat!");
+        }
+        else {
+            if (ugyfelLabel.equals("Módosítás")) {
+                UgyfelSzamla ugyfelSzamla = UgyfelSzamla.builder()
+                        .ugyfel(aktualisUgyfel)
+                        .bejovo(bejovoRadioButton.isSelected())
+                        .bizonylatszam(bizonylatszamTextField.getText())
+                        .kelte(kelteDatePicker.getValue())
+                        .teljesites(teljesitesDatePicker.getValue())
+                        .esedekesseg(esedekessegDatePicker.getValue())
+                        .partner(partnerChoiceBox.getValue().toString())
+                        .fizetesiMod(fizetesiModChoiceBox.getValue().toString())
+                        .megjegyzes(megjegyzesTextField.getText())
+                        .fokonyviSzam(fokonyviSzamChoiceBox.getValue().toString())
+                        .megnevezes(megnevezesTextField.getText())
+                        .afaTipus(afaChoiceBox.getValue().toString())
+                        .netto(Integer.parseInt(nettoTextField.getText()))
+                        .afa(Integer.parseInt(afaTextField.getText()))
+                        .brutto(Integer.parseInt(bruttoTextField.getText()))
+                        .build();
 
-    public void afaAnalitikaAction(ActionEvent actionEvent) {
-    }
+                ugyfelSzamlaDao.persist(ugyfelSzamla);
+            }
+            else {
+                modositandoUgyfelSzamla.setBejovo(bejovoRadioButton.isSelected());
+                modositandoUgyfelSzamla.setBizonylatszam(bizonylatszamTextField.getText());
+                modositandoUgyfelSzamla.setKelte(kelteDatePicker.getValue());
+                modositandoUgyfelSzamla.setTeljesites(teljesitesDatePicker.getValue());
+                modositandoUgyfelSzamla.setEsedekesseg(esedekessegDatePicker.getValue());
+                modositandoUgyfelSzamla.setPartner(partnerChoiceBox.getValue().toString());
+                modositandoUgyfelSzamla.setFizetesiMod(fizetesiModChoiceBox.getValue().toString());
+                modositandoUgyfelSzamla.setMegjegyzes(megjegyzesTextField.getText());
+                modositandoUgyfelSzamla.setFokonyviSzam(fokonyviSzamChoiceBox.getValue().toString());
+                modositandoUgyfelSzamla.setMegnevezes(megnevezesTextField.getText());
+                modositandoUgyfelSzamla.setAfaTipus(afaChoiceBox.getValue().toString());
+                modositandoUgyfelSzamla.setNetto(Integer.parseInt(nettoTextField.getText()));
+                modositandoUgyfelSzamla.setAfa(Integer.parseInt(afaTextField.getText()));
+                modositandoUgyfelSzamla.setBrutto(Integer.parseInt(bruttoTextField.getText()));
 
-    public void vevoAnalitikaAction(ActionEvent actionEvent) {
-    }
+                ugyfelSzamlaDao.update(modositandoUgyfelSzamla);
+            }
 
-    public void szallitoAnalitikaAction(ActionEvent actionEvent) {
+            Parent root = FXMLLoader.load(getClass().getResource("/fxml/szamlak.fxml"));
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        }
     }
 
     public void partnerAction(ActionEvent actionEvent) throws IOException {

@@ -28,13 +28,13 @@ public class Szamla {
     private String bizonylatszam;
 
     @Column(nullable=false)
-    private Date kelte;
+    private LocalDate kelte;
 
     @Column(nullable=false)
-    private Date teljesites;
+    private LocalDate teljesites;
 
     @Column(nullable=false)
-    private Date esedekesseg;
+    private LocalDate esedekesseg;
 
     @Column(nullable=false)
     private String partner;

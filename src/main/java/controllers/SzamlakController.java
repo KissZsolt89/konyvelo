@@ -4,17 +4,32 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import model.szamla.UgyfelSzamla;
 import model.szamla.UgyfelSzamlaDao;
 import model.ugyfel.Ugyfel;
 import model.ugyfel.UgyfelDao;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 public class SzamlakController {
+
+    private static Ugyfel aktualisUgyfel;
+
+    private UgyfelSzamlaDao ugyfelSzamlaDao;
+
+    @FXML
+    private TableView<UgyfelSzamla> szamlakTable;
 
     @FXML
     private TableColumn<UgyfelSzamla, String> id;
@@ -52,41 +67,91 @@ public class SzamlakController {
     @FXML
     private Label ugyfelLabel;
 
-    private UgyfelDao ugyfelDao;
-    private UgyfelSzamlaDao ugyfelSzamlaDao;
-
     @FXML
     public void initialize() {
-        ugyfelDao = UgyfelDao.getInstance();
         ugyfelSzamlaDao = UgyfelSzamlaDao.getInstance();
-        //initializeTable();
+        initializeTable();
     }
-    /*
+
+    public void initdata(Ugyfel ugyfel) {
+        aktualisUgyfel = ugyfel;
+        ugyfelLabel.setText(aktualisUgyfel.getNev());
+        initializeTable();
+    }
+
     @FXML
     private void initializeTable() {
-        List<Ugyfel> ugyfelLista = ugyfelDao.findAll();
+        if (aktualisUgyfel != null) {
+            List<UgyfelSzamla> szamlaLista = ugyfelSzamlaDao.findAllByNev(aktualisUgyfel.getNev());
 
-        if (!ugyfelLista.isEmpty()) {
-            nev.setCellValueFactory(new PropertyValueFactory<>("nev"));
-            adoszam.setCellValueFactory(new PropertyValueFactory<>("adoszam"));
-            cim.setCellValueFactory(new PropertyValueFactory<>("cim"));
+            if (!szamlaLista.isEmpty()) {
+                irany.setCellValueFactory(new PropertyValueFactory<>("bejovo"));
+                bizonylatszam.setCellValueFactory(new PropertyValueFactory<>("bizonylatszam"));
+                partner.setCellValueFactory(new PropertyValueFactory<>("partner"));
+                kelte.setCellValueFactory(new PropertyValueFactory<>("kelte"));
+                teljesites.setCellValueFactory(new PropertyValueFactory<>("teljesites"));
+                esedekesseg.setCellValueFactory(new PropertyValueFactory<>("esedekesseg"));
+                fizetesiMod.setCellValueFactory(new PropertyValueFactory<>("fizetesiMod"));
+                netto.setCellValueFactory(new PropertyValueFactory<>("netto"));
+                afa.setCellValueFactory(new PropertyValueFactory<>("afa"));
+                brutto.setCellValueFactory(new PropertyValueFactory<>("brutto"));
 
-            ObservableList<Ugyfel> observableUgyfelLista = FXCollections.observableArrayList();
-            observableUgyfelLista.addAll(ugyfelLista);
+                ObservableList<UgyfelSzamla> observableUgyfelSzamlaLista = FXCollections.observableArrayList();
+                observableUgyfelSzamlaLista.addAll(szamlaLista);
 
-            ugyfelekTable.setItems(observableUgyfelLista);
-        }
-        else {
-            ugyfelekTable.getItems().clear();
+                szamlakTable.setItems(observableUgyfelSzamlaLista);
+            } else {
+                szamlakTable.getItems().clear();
+            }
         }
     }
-*/
-    public void modositasAction(ActionEvent actionEvent) {
+
+    public void modositasAction(ActionEvent actionEvent) throws IOException {
+        if (!szamlakTable.getSelectionModel().isEmpty()) {
+            Optional<UgyfelSzamla> optionalSzamla =
+                    ugyfelSzamlaDao.findByID(szamlakTable.getSelectionModel().getSelectedItem().getId());
+
+            if (!optionalSzamla.isEmpty()) {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/szamla.fxml"));
+                Parent root = fxmlLoader.load();
+                fxmlLoader.<SzamlaController>getController().initdata(optionalSzamla.get());
+                Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                stage.setScene(new Scene(root));
+                stage.show();
+            }
+        }
+    }
+
+    public void ujSzamlakAction(ActionEvent actionEvent) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/szamla.fxml"));
+        Parent root = fxmlLoader.load();
+        fxmlLoader.<SzamlaController>getController().initdata(aktualisUgyfel);
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     public void torlesAction(ActionEvent actionEvent) {
     }
 
-    public void megseAction(ActionEvent actionEvent) {
+    public void megseAction(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/indito.fxml"));
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
+
+    public void fokonyvAction(ActionEvent actionEvent) {
+    }
+
+    public void afaAnalitikaAction(ActionEvent actionEvent) {
+    }
+
+    public void vevoAnalitikaAction(ActionEvent actionEvent) {
+    }
+
+    public void szallitoAnalitikaAction(ActionEvent actionEvent) {
+    }
+
+
 }

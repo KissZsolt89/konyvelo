@@ -35,12 +35,15 @@ public class UgyfelController {
     @FXML
     public void initialize() {
         ugyfelDao = UgyfelDao.getInstance();
-        this.ugyfelLabel.setText("Új ügyfél");
+        ugyfelLabel.setText("Új ügyfél");
     }
 
     public void initdata(Ugyfel ugyfel) {
-        this.modositandoUgyfel = ugyfel;
-        this.ugyfelLabel.setText("Módosítás");
+        modositandoUgyfel = ugyfel;
+        ugyfelLabel.setText("Módosítás");
+        nevTextField.setText(modositandoUgyfel.getNev());
+        adoszamTextField.setText(modositandoUgyfel.getAdoszam());
+        cimTextField.setText(modositandoUgyfel.getCim());
     }
 
     public void megseAction(ActionEvent actionEvent) throws IOException {
@@ -57,10 +60,11 @@ public class UgyfelController {
             //errorLabel.setText("* Username is empty!");
         } else {
             if (ugyfelLabel.getText() == "Új ügyfél") {
-                Ugyfel ugyfel = new Ugyfel();
-                ugyfel.setNev(nevTextField.getText());
-                ugyfel.setAdoszam(adoszamTextField.getText());
-                ugyfel.setCim(cimTextField.getText());
+                Ugyfel ugyfel = Ugyfel.builder()
+                        .nev(nevTextField.getText())
+                        .adoszam(adoszamTextField.getText())
+                        .cim(cimTextField.getText())
+                        .build();
 
                 ugyfelDao.persist(ugyfel);
             }

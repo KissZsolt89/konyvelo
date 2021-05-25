@@ -4,9 +4,6 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
@@ -16,28 +13,25 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="516.0" prefWidth="794.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SzamlaController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="486.0" prefWidth="794.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SzamlaController">
    <children>
-      <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="794.0">
-        <menus>
-            <Menu fx:id="szamlakMenu" mnemonicParsing="false" onAction="#szamlakAction" text="Számlák" />
-          <Menu mnemonicParsing="false" text="Kivonatok">
-            <items>
-              <MenuItem fx:id="fokonyvMenu" mnemonicParsing="false" onAction="#fokonyvAction" text="Főkönyvi kivonat" />
-                  <MenuItem fx:id="afaAnalitikaMenu" mnemonicParsing="false" onAction="#afaAnalitikaAction" text="ÁFA analitika" />
-                  <MenuItem fx:id="vevoAnalitikaMenu" mnemonicParsing="false" onAction="#vevoAnalitikaAction" text="Vevő analitika" />
-                  <MenuItem fx:id="szallitoAnalitikaMenu" mnemonicParsing="false" onAction="#szallitoAnalitikaAction" text="Szállító analitika" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
-      <Label fx:id="ugyfelLabel" alignment="CENTER" layoutY="28.0" prefHeight="43.0" prefWidth="794.0" text="Ügyfél neve">
+      <Label fx:id="ugyfelLabel" alignment="CENTER" prefHeight="43.0" prefWidth="794.0" text="Ügyfél neve">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Separator layoutY="67.0" prefHeight="11.0" prefWidth="794.0" />
-      <GridPane layoutX="22.0" layoutY="123.0" prefHeight="169.0" prefWidth="750.0">
+      <RadioButton fx:id="bejovoRadioButton" layoutX="22.0" layoutY="56.0" mnemonicParsing="false" onAction="#bejovoAction" selected="true" text="Bejövő">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </RadioButton>
+      <RadioButton fx:id="kimenoRadioButton" layoutX="121.0" layoutY="57.0" mnemonicParsing="false" onAction="#kimenoAction" text="Kimenő">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </RadioButton>
+      <Separator layoutY="39.0" prefHeight="11.0" prefWidth="794.0" />
+      <GridPane layoutX="22.0" layoutY="95.0" prefHeight="169.0" prefWidth="750.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="166.0" minWidth="10.0" prefWidth="110.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="284.0" minWidth="10.0" prefWidth="215.0" />
@@ -52,6 +46,12 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
+            <Label text="Bizonylatszám:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <TextField fx:id="bizonylatszamTextField" prefHeight="25.0" prefWidth="123.0" GridPane.columnIndex="1" />
             <Label text="Kelte:" GridPane.rowIndex="1">
                <font>
                   <Font size="14.0" />
@@ -67,22 +67,15 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label text="Bizonylatszám:">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
             <DatePicker fx:id="kelteDatePicker" prefHeight="25.0" prefWidth="230.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <DatePicker fx:id="teljesitesDatePicker" prefHeight="25.0" prefWidth="229.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <DatePicker fx:id="esedekessegDatePicker" prefHeight="25.0" prefWidth="223.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <TextField fx:id="bizonylatszamTextField" prefHeight="25.0" prefWidth="123.0" GridPane.columnIndex="1" />
-            <Label text="Fizetési mód:" GridPane.columnIndex="3" GridPane.rowIndex="1">
+            <Label text="Partner:" GridPane.columnIndex="3">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <ChoiceBox fx:id="fizetesiModChoiceBox" prefHeight="25.0" prefWidth="309.0" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-            <Label text="Partner:" GridPane.columnIndex="3">
+            <Label text="Fizetési mód:" GridPane.columnIndex="3" GridPane.rowIndex="1">
                <font>
                   <Font size="14.0" />
                </font>
@@ -92,7 +85,6 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="megjegyzesTextField" GridPane.columnIndex="4" GridPane.rowIndex="2" />
             <GridPane GridPane.columnIndex="4">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="273.0" minWidth="10.0" prefWidth="272.0" />
@@ -106,21 +98,13 @@
                   <Button fx:id="partnerButton" mnemonicParsing="false" onAction="#partnerAction" prefHeight="25.0" prefWidth="32.0" text="+" GridPane.columnIndex="1" />
                </children>
             </GridPane>
+            <ChoiceBox fx:id="fizetesiModChoiceBox" prefHeight="25.0" prefWidth="309.0" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+            <TextField fx:id="megjegyzesTextField" GridPane.columnIndex="4" GridPane.rowIndex="2" />
          </children>
       </GridPane>
-      <RadioButton fx:id="bejovoRadioButton" layoutX="22.0" layoutY="84.0" mnemonicParsing="false" onAction="#bejovoAction" selected="true" text="Bejövő">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </RadioButton>
-      <RadioButton fx:id="kimenoRadioButton" layoutX="121.0" layoutY="85.0" mnemonicParsing="false" onAction="#kimenoAction" text="Kimenő">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </RadioButton>
-      <Separator layoutY="112.0" prefHeight="11.0" prefWidth="794.0" />
-      <Separator layoutX="1.0" layoutY="301.0" prefHeight="0.0" prefWidth="794.0" />
-      <GridPane layoutX="22.0" layoutY="309.0" prefHeight="129.0" prefWidth="750.0">
+      <Separator layoutY="84.0" prefHeight="11.0" prefWidth="794.0" />
+      <Separator layoutX="1.0" layoutY="273.0" prefHeight="0.0" prefWidth="794.0" />
+      <GridPane layoutX="22.0" layoutY="281.0" prefHeight="129.0" prefWidth="750.0">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="166.0" minWidth="10.0" prefWidth="110.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="308.0" minWidth="10.0" prefWidth="298.0" />
@@ -149,12 +133,12 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label text="ÁFA:" GridPane.columnIndex="3" GridPane.rowIndex="1">
+            <Label text="Nettó:" GridPane.columnIndex="3">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label text="Nettó:" GridPane.columnIndex="3">
+            <Label text="ÁFA:" GridPane.columnIndex="3" GridPane.rowIndex="1">
                <font>
                   <Font size="14.0" />
                </font>
@@ -164,16 +148,21 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="nettoTextField" text="0" GridPane.columnIndex="4" />
-            <TextField fx:id="bruttoTextField" editable="false" text="0" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-            <TextField fx:id="afaTextField" text="0" GridPane.columnIndex="4" GridPane.rowIndex="1" />
             <ChoiceBox fx:id="fokonyviSzamChoiceBox" prefHeight="25.0" prefWidth="310.0" GridPane.columnIndex="1" />
-            <ChoiceBox fx:id="afaChoiceBox" prefHeight="25.0" prefWidth="310.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextField fx:id="megnevezesTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ChoiceBox fx:id="afaChoiceBox" prefHeight="25.0" prefWidth="310.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="nettoTextField" text="0" GridPane.columnIndex="4" />
+            <TextField fx:id="afaTextField" text="0" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+            <TextField fx:id="bruttoTextField" editable="false" text="0" GridPane.columnIndex="4" GridPane.rowIndex="2" />
          </children>
       </GridPane>
-      <Separator layoutY="446.0" prefHeight="3.0" prefWidth="794.0" />
-      <Button layoutX="656.0" layoutY="464.0" mnemonicParsing="false" onAction="#megseAction" prefHeight="34.0" prefWidth="116.0" text="Mégse" />
-      <Button layoutX="522.0" layoutY="464.0" mnemonicParsing="false" onAction="#mentesAction" prefHeight="34.0" prefWidth="116.0" text="Mentés" />
+      <Separator layoutY="418.0" prefHeight="3.0" prefWidth="794.0" />
+      <Button layoutX="522.0" layoutY="436.0" mnemonicParsing="false" onAction="#mentesAction" prefHeight="34.0" prefWidth="116.0" text="Mentés" />
+      <Button layoutX="656.0" layoutY="436.0" mnemonicParsing="false" onAction="#megseAction" prefHeight="34.0" prefWidth="116.0" text="Mégse" />
+      <Label fx:id="hibasAdatLabel" alignment="CENTER_RIGHT" layoutX="318.0" layoutY="443.0" prefHeight="20.0" prefWidth="188.0" text="Hiányzó adat!" textFill="RED">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
    </children>
 </Pane>

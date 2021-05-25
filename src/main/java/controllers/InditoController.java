@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.stage.Stage;
 import model.szamla.UgyfelSzamlaDao;
+import model.ugyfel.Ugyfel;
 import model.ugyfel.UgyfelDao;
 
 import java.io.IOException;
@@ -43,9 +44,11 @@ public class InditoController {
 
     public void inditasAction(ActionEvent actionEvent) throws IOException {
         if (ugyfelChoiceBox.getValue() != null) {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/szamla.fxml"));
+            Ugyfel ugyfel = ugyfelDao.findByNev(ugyfelChoiceBox.getValue().toString()).get();
+
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/szamlak.fxml"));
             Parent root = fxmlLoader.load();
-            fxmlLoader.<SzamlaController>getController().initdata(ugyfelChoiceBox.getValue().toString());
+            fxmlLoader.<SzamlakController>getController().initdata(ugyfel);
             Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
