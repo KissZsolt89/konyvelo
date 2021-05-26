@@ -46,7 +46,7 @@ public class UgyfelController {
         cimTextField.setText(modositandoUgyfel.getCim());
     }
 
-    public void megseAction(ActionEvent actionEvent) throws IOException {
+    public void visszaAction(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/ugyfelek.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));

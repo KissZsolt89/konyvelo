@@ -3,9 +3,11 @@ package main;
 import javafx.application.Application;
 import model.szamla.UgyfelSzamla;
 import model.szamla.UgyfelSzamlaDao;
+import model.tetel.Tetel;
 import model.ugyfel.Ugyfel;
 import model.ugyfel.UgyfelDao;
 
+import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,12 +17,12 @@ public class Main {
 
     public static void main(String[] args) {
 
-        tesztFeltoltes();
+        //tesztFeltoltes(200);
 
-        //Application.launch(KonyveloApplication.class, args);
+        Application.launch(KonyveloApplication.class, args);
     }
 
-    private static void tesztFeltoltes() {
+    private static void tesztFeltoltes(int darabszam) {
 
         UgyfelDao ugyfelDao = UgyfelDao.getInstance();
         UgyfelSzamlaDao ugyfelSzamlaDao = UgyfelSzamlaDao.getInstance();
@@ -41,7 +43,7 @@ public class Main {
         afaLista.add("27%");
         afaLista.add("18%");
         afaLista.add("5%");
-        afaLista.add("AM%");
+        afaLista.add("AM");
 
         List<String> fokonyvLista = new ArrayList<>();
         fokonyvLista.add("1 – Befektetett eszközök");
@@ -68,9 +70,12 @@ public class Main {
 
         Random r = new Random();
 
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < darabszam; i++) {
+
             String afaT = afaLista.get(r.nextInt(afaLista.size()));
-            int nettoAr = (r.nextInt(1000) + 1) * 100;
+            int nettoOsszeg = (r.nextInt(1000) + 1) * 100;
+            int afaOsszeg = (int) ((afaT.equals("AM") ? 0 : (Double.parseDouble(afaT.substring(0, afaT.length() - 1))
+                            / 100)) * nettoOsszeg);
 
             UgyfelSzamla ugyfelSzamla = UgyfelSzamla.builder()
                     .ugyfel(ugyfel)
@@ -85,9 +90,9 @@ public class Main {
                     .fokonyviSzam(fokonyvLista.get(r.nextInt(fokonyvLista.size())))
                     .megnevezes("Tesztáru")
                     .afaTipus(afaT)
-                    .netto(nettoAr)
-                    .afa((int)(0.27*nettoAr))
-                    .brutto((int)(1.27*nettoAr))
+                    .netto(nettoOsszeg)
+                    .afa(afaOsszeg)
+                    .brutto(nettoOsszeg+afaOsszeg)
                     .build();
 
             ugyfelSzamlaDao.persist(ugyfelSzamla);

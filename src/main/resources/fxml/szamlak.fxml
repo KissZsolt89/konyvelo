@@ -10,21 +10,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="588.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SzamlakController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="587.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SzamlakController">
    <children>
-      <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="1100.0">
-         <menus>
-            <Menu mnemonicParsing="false" text="Kivonatok">
-               <items>
-                  <MenuItem fx:id="fokonyvMenu" mnemonicParsing="false" onAction="#fokonyvAction" text="Főkönyvi kivonat" />
-                  <MenuItem fx:id="afaAnalitikaMenu" mnemonicParsing="false" onAction="#afaAnalitikaAction" text="ÁFA analitika" />
-                  <MenuItem fx:id="vevoAnalitikaMenu" mnemonicParsing="false" onAction="#vevoAnalitikaAction" text="Vevő analitika" />
-                  <MenuItem fx:id="szallitoAnalitikaMenu" mnemonicParsing="false" onAction="#szallitoAnalitikaAction" text="Szállító analitika" />
-               </items>
-            </Menu>
-         </menus>
-      </MenuBar>
-      <Button fx:id="ujSzamlakButton" layoutX="23.0" layoutY="536.0" mnemonicParsing="false" onAction="#ujSzamlakAction" prefHeight="34.0" prefWidth="191.0" text="Új számlák felvitele">
+      <Button fx:id="ujSzamlaButton" layoutX="23.0" layoutY="536.0" mnemonicParsing="false" onAction="#ujSzamlaAction" prefHeight="34.0" prefWidth="197.0" text="Új számla felvitele">
          <font>
             <Font size="14.0" />
          </font>
@@ -37,11 +25,11 @@
          <font>
             <Font size="14.0" />
          </font></Button>
-      <Button layoutX="961.0" layoutY="536.0" mnemonicParsing="false" onAction="#megseAction" prefHeight="34.0" prefWidth="116.0" text="Mégse">
+      <Button layoutX="961.0" layoutY="536.0" mnemonicParsing="false" onAction="#visszaAction" prefHeight="34.0" prefWidth="116.0" text="Vissza">
          <font>
             <Font size="14.0" />
          </font></Button>
-      <TableView fx:id="szamlakTable" layoutX="23.0" layoutY="80.0" prefHeight="437.0" prefWidth="1054.0">
+      <TableView fx:id="szamlakTable" layoutX="23.0" layoutY="75.0" prefHeight="443.0" prefWidth="1054.0">
         <columns>
             <TableColumn fx:id="irany" prefWidth="82.0" text="Irány" />
             <TableColumn fx:id="bizonylatszam" prefWidth="134.0" text="Bizonylatszám" />
@@ -55,10 +43,22 @@
             <TableColumn fx:id="brutto" prefWidth="96.0" text="Bruttó" />
         </columns>
       </TableView>
-      <Label fx:id="ugyfelLabel" layoutX="506.0" layoutY="40.0" text="Ügyfélnév" textAlignment="CENTER">
+      <Label fx:id="ugyfelLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="23.0" layoutY="38.0" prefHeight="30.0" prefWidth="1054.0" text="Ügyfélnév">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
+      <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="1100.0">
+        <menus>
+          <Menu mnemonicParsing="false" style="-fx-font-size: 14;" text="Kivonatok">
+            <items>
+                <MenuItem mnemonicParsing="false" onAction="#kivonatAction" text="Főkönyvi kivonat" />
+              <MenuItem mnemonicParsing="false" onAction="#kivonatAction" text="ÁFA-analitika" />
+                  <MenuItem mnemonicParsing="false" onAction="#kivonatAction" text="Vevő-analitika" />
+                  <MenuItem mnemonicParsing="false" onAction="#kivonatAction" text="Szállító-analitika" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
    </children>
 </Pane>

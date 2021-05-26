@@ -9,6 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -66,7 +67,9 @@ public class SzamlakController {
     @FXML
     public void initialize() {
         ugyfelSzamlaDao = UgyfelSzamlaDao.getInstance();
-        initializeTable();
+        if (aktualisUgyfel != null) {
+            initializeTable();
+        }
     }
 
     public void initdata(Ugyfel ugyfel) {
@@ -76,37 +79,36 @@ public class SzamlakController {
 
     @FXML
     private void initializeTable() {
-        if (aktualisUgyfel != null) {
-            ugyfelLabel.setText(aktualisUgyfel.getNev());
+        ugyfelLabel.setText(aktualisUgyfel.getNev());
 
-            List<UgyfelSzamla> szamlaLista = ugyfelSzamlaDao.findAllByNev(aktualisUgyfel.getNev());
+        List<UgyfelSzamla> szamlaLista = ugyfelSzamlaDao.findAllByNev(aktualisUgyfel.getNev());
 
-            if (!szamlaLista.isEmpty()) {
-                irany.setCellValueFactory(new PropertyValueFactory<>("irany"));
-                bizonylatszam.setCellValueFactory(new PropertyValueFactory<>("bizonylatszam"));
-                partner.setCellValueFactory(new PropertyValueFactory<>("partner"));
-                kelte.setCellValueFactory(new PropertyValueFactory<>("kelte"));
-                teljesites.setCellValueFactory(new PropertyValueFactory<>("teljesites"));
-                esedekesseg.setCellValueFactory(new PropertyValueFactory<>("esedekesseg"));
-                fizetesiMod.setCellValueFactory(new PropertyValueFactory<>("fizetesiMod"));
-                netto.setCellValueFactory(new PropertyValueFactory<>("netto"));
-                afa.setCellValueFactory(new PropertyValueFactory<>("afa"));
-                brutto.setCellValueFactory(new PropertyValueFactory<>("brutto"));
+        if (!szamlaLista.isEmpty()) {
+            irany.setCellValueFactory(new PropertyValueFactory<>("irany"));
+            bizonylatszam.setCellValueFactory(new PropertyValueFactory<>("bizonylatszam"));
+            partner.setCellValueFactory(new PropertyValueFactory<>("partner"));
+            kelte.setCellValueFactory(new PropertyValueFactory<>("kelte"));
+            teljesites.setCellValueFactory(new PropertyValueFactory<>("teljesites"));
+            esedekesseg.setCellValueFactory(new PropertyValueFactory<>("esedekesseg"));
+            fizetesiMod.setCellValueFactory(new PropertyValueFactory<>("fizetesiMod"));
+            netto.setCellValueFactory(new PropertyValueFactory<>("netto"));
+            afa.setCellValueFactory(new PropertyValueFactory<>("afa"));
+            brutto.setCellValueFactory(new PropertyValueFactory<>("brutto"));
 
-                ObservableList<UgyfelSzamla> observableUgyfelSzamlaLista = FXCollections.observableArrayList();
-                observableUgyfelSzamlaLista.addAll(szamlaLista);
+            ObservableList<UgyfelSzamla> observableUgyfelSzamlaLista = FXCollections.observableArrayList();
+            observableUgyfelSzamlaLista.addAll(szamlaLista);
 
-                szamlakTable.setItems(observableUgyfelSzamlaLista);
-            } else {
-                szamlakTable.getItems().clear();
-            }
+            szamlakTable.setItems(observableUgyfelSzamlaLista);
+        } else {
+            szamlakTable.getItems().clear();
         }
     }
 
     public void modositasAction(ActionEvent actionEvent) throws IOException {
         if (!szamlakTable.getSelectionModel().isEmpty()) {
             Optional<UgyfelSzamla> optionalUgyfelSzamla =
-                    ugyfelSzamlaDao.findByID(szamlakTable.getSelectionModel().getSelectedItem().getId());
+                    ugyfelSzamlaDao.findByID(szamlakTable.getSelectionModel()
+                            .getSelectedItem().getId());
 
             if (!optionalUgyfelSzamla.isEmpty()) {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/szamla.fxml"));
@@ -119,7 +121,7 @@ public class SzamlakController {
         }
     }
 
-    public void ujSzamlakAction(ActionEvent actionEvent) throws IOException {
+    public void ujSzamlaAction(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/szamla.fxml"));
         Parent root = fxmlLoader.load();
         fxmlLoader.<SzamlaController>getController().initdata(aktualisUgyfel);
@@ -131,7 +133,8 @@ public class SzamlakController {
     public void torlesAction(ActionEvent actionEvent) {
         if (!szamlakTable.getSelectionModel().isEmpty()) {
             Optional<UgyfelSzamla> optionalUgyfelSzamla =
-                    ugyfelSzamlaDao.findByID(szamlakTable.getSelectionModel().getSelectedItem().getId());
+                    ugyfelSzamlaDao.findByID(szamlakTable.getSelectionModel()
+                            .getSelectedItem().getId());
 
             if (!optionalUgyfelSzamla.isEmpty()) {
                 ugyfelSzamlaDao.remove(optionalUgyfelSzamla.get());
@@ -140,22 +143,20 @@ public class SzamlakController {
         }
     }
 
-    public void megseAction(ActionEvent actionEvent) throws IOException {
+    public void visszaAction(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/indito.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
     }
 
-    public void fokonyvAction(ActionEvent actionEvent) {
-    }
-
-    public void afaAnalitikaAction(ActionEvent actionEvent) {
-    }
-
-    public void vevoAnalitikaAction(ActionEvent actionEvent) {
-    }
-
-    public void szallitoAnalitikaAction(ActionEvent actionEvent) {
+    public void kivonatAction(ActionEvent actionEvent) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/kivonat.fxml"));
+        Parent root = fxmlLoader.load();
+        fxmlLoader.<KivonatController>getController()
+                .initdata(((MenuItem)actionEvent.getSource()).getText(), aktualisUgyfel);
+        Stage stage = (Stage) szamlakTable.getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 }

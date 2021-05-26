@@ -67,7 +67,7 @@ public class UgyfelekController {
         }
     }
 
-    public void megseAction(ActionEvent actionEvent) throws IOException {
+    public void visszaAction(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/" + honnan + ".fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));

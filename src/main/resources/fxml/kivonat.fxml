@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="491.0" prefWidth="714.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.KivonatController">
+   <children>
+      <Button fx:id="visszaButton" layoutX="580.0" layoutY="445.0" mnemonicParsing="false" onAction="#visszaAction" prefHeight="34.0" prefWidth="116.0" text="Vissza">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <TableView fx:id="kivonatTable" layoutX="18.0" layoutY="56.0" prefHeight="379.0" prefWidth="678.0">
+        <columns>
+          <TableColumn fx:id="tetelNev" prefWidth="288.0" text="Tétel" />
+            <TableColumn fx:id="bevetel" prefWidth="129.0" text="Bevétel" />
+            <TableColumn fx:id="kiadas" prefWidth="129.0" text="Kiadás" />
+            <TableColumn fx:id="egyenleg" prefWidth="130.0" text="Egyenleg" />
+        </columns>
+      </TableView>
+      <Label fx:id="ugyfelLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="18.0" layoutY="15.0" prefHeight="30.0" prefWidth="678.0" text="Ügyfél" textAlignment="CENTER">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="egyenlegLabel" layoutX="18.0" layoutY="450.0" prefHeight="25.0" prefWidth="547.0" text="Összes bevétel:   Összes kiadás:   Egyenleg: ">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>

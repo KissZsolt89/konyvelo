@@ -47,12 +47,12 @@
             <Font size="14.0" />
          </font>
       </Button>
-      <Button layoutX="407.0" layoutY="178.0" mnemonicParsing="false" onAction="#megseAction" prefHeight="34.0" prefWidth="116.0" text="Mégse">
+      <Button layoutX="407.0" layoutY="178.0" mnemonicParsing="false" onAction="#visszaAction" prefHeight="34.0" prefWidth="116.0" text="Vissza">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <Label fx:id="ugyfelLabel" layoutX="219.0" layoutY="23.0" text="Új/módosítás">
+      <Label fx:id="ugyfelLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="32.0" layoutY="23.0" prefHeight="30.0" prefWidth="491.0" text="Új/módosítás">
          <font>
             <Font size="20.0" />
          </font>

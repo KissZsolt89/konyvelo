@@ -21,7 +21,7 @@
          <font>
             <Font size="14.0" />
          </font></Button>
-      <Button layoutX="501.0" layoutY="441.0" mnemonicParsing="false" onAction="#megseAction" prefHeight="34.0" prefWidth="116.0" text="Mégse">
+      <Button layoutX="501.0" layoutY="441.0" mnemonicParsing="false" onAction="#visszaAction" prefHeight="34.0" prefWidth="116.0" text="Vissza">
          <font>
             <Font size="14.0" />
          </font></Button>
@@ -32,7 +32,7 @@
             <TableColumn fx:id="cim" prefWidth="255.0" text="Cím" />
         </columns>
       </TableView>
-      <Label layoutX="309.0" layoutY="20.0" text="Ügyfelek" textAlignment="CENTER">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="29.0" layoutY="20.0" prefHeight="30.0" prefWidth="637.0" text="Ügyfelek" textAlignment="CENTER">
          <font>
             <Font size="20.0" />
          </font>
