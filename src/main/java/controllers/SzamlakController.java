@@ -16,7 +16,6 @@ import javafx.stage.Stage;
 import model.szamla.UgyfelSzamla;
 import model.szamla.UgyfelSzamlaDao;
 import model.ugyfel.Ugyfel;
-import model.ugyfel.UgyfelDao;
 
 import java.io.IOException;
 import java.util.List;
@@ -30,9 +29,6 @@ public class SzamlakController {
 
     @FXML
     private TableView<UgyfelSzamla> szamlakTable;
-
-    @FXML
-    private TableColumn<UgyfelSzamla, String> id;
 
     @FXML
     private TableColumn<UgyfelSzamla, Boolean> irany;
@@ -75,17 +71,18 @@ public class SzamlakController {
 
     public void initdata(Ugyfel ugyfel) {
         aktualisUgyfel = ugyfel;
-        ugyfelLabel.setText(aktualisUgyfel.getNev());
         initializeTable();
     }
 
     @FXML
     private void initializeTable() {
         if (aktualisUgyfel != null) {
+            ugyfelLabel.setText(aktualisUgyfel.getNev());
+
             List<UgyfelSzamla> szamlaLista = ugyfelSzamlaDao.findAllByNev(aktualisUgyfel.getNev());
 
             if (!szamlaLista.isEmpty()) {
-                irany.setCellValueFactory(new PropertyValueFactory<>("bejovo"));
+                irany.setCellValueFactory(new PropertyValueFactory<>("irany"));
                 bizonylatszam.setCellValueFactory(new PropertyValueFactory<>("bizonylatszam"));
                 partner.setCellValueFactory(new PropertyValueFactory<>("partner"));
                 kelte.setCellValueFactory(new PropertyValueFactory<>("kelte"));
@@ -108,13 +105,13 @@ public class SzamlakController {
 
     public void modositasAction(ActionEvent actionEvent) throws IOException {
         if (!szamlakTable.getSelectionModel().isEmpty()) {
-            Optional<UgyfelSzamla> optionalSzamla =
+            Optional<UgyfelSzamla> optionalUgyfelSzamla =
                     ugyfelSzamlaDao.findByID(szamlakTable.getSelectionModel().getSelectedItem().getId());
 
-            if (!optionalSzamla.isEmpty()) {
+            if (!optionalUgyfelSzamla.isEmpty()) {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/szamla.fxml"));
                 Parent root = fxmlLoader.load();
-                fxmlLoader.<SzamlaController>getController().initdata(optionalSzamla.get());
+                fxmlLoader.<SzamlaController>getController().initdata(optionalUgyfelSzamla.get());
                 Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
                 stage.setScene(new Scene(root));
                 stage.show();
@@ -132,6 +129,15 @@ public class SzamlakController {
     }
 
     public void torlesAction(ActionEvent actionEvent) {
+        if (!szamlakTable.getSelectionModel().isEmpty()) {
+            Optional<UgyfelSzamla> optionalUgyfelSzamla =
+                    ugyfelSzamlaDao.findByID(szamlakTable.getSelectionModel().getSelectedItem().getId());
+
+            if (!optionalUgyfelSzamla.isEmpty()) {
+                ugyfelSzamlaDao.remove(optionalUgyfelSzamla.get());
+                initializeTable();
+            }
+        }
     }
 
     public void megseAction(ActionEvent actionEvent) throws IOException {
@@ -152,6 +158,4 @@ public class SzamlakController {
 
     public void szallitoAnalitikaAction(ActionEvent actionEvent) {
     }
-
-
 }

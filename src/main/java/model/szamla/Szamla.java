@@ -4,10 +4,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
-import java.sql.Date;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -22,7 +19,7 @@ public class Szamla {
     private Long id;
 
     @Column(nullable=false)
-    private Boolean bejovo;
+    private String irany;
 
     @Column(nullable=false)
     private String bizonylatszam;

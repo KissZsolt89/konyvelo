@@ -11,7 +11,6 @@ public class KonyveloApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/indito.fxml"));
         primaryStage.setTitle("Könyvelő Program");
         primaryStage.setResizable(false);

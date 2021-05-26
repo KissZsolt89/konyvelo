@@ -21,8 +21,8 @@ import java.util.List;
 
 public class SzamlaController {
 
-    private Ugyfel aktualisUgyfel;
-    private UgyfelSzamla modositandoUgyfelSzamla;
+    private static Ugyfel aktualisUgyfel;
+    private static UgyfelSzamla modositandoUgyfelSzamla;
 
     private UgyfelDao ugyfelDao;
     private UgyfelSzamlaDao ugyfelSzamlaDao;
@@ -87,7 +87,7 @@ public class SzamlaController {
         modositandoUgyfelSzamla = ugyfelSzamla;
         ugyfelLabel.setText("Módosítás");
 
-        if (modositandoUgyfelSzamla.getBejovo()) {
+        if (modositandoUgyfelSzamla.getIrany().equals("bejövő")) {
             bejovoRadioButton.setSelected(true);
             kimenoRadioButton.setSelected(false);
         }
@@ -131,10 +131,15 @@ public class SzamlaController {
 
         ObservableList<String> fokonyvLista =
                 FXCollections.observableArrayList(
-                        "1 - izé%",
-                        "2 - mizé",
-                        "3 - hozé",
-                        "4 - mittomén");
+                        "1 – Befektetett eszközök",
+                        "2 - Készletek",
+                        "3 - Követelések, pénzügyi eszközök",
+                        "4 - Források",
+                        "5 - Költségnemek",
+                        "6 - Költséghelyek, általános költségek",
+                        "7 - Tevékenységek költségei",
+                        "8 - Értékesítés elszámolt önköltsége és ráfordítások",
+                        "9 - Értékesítés árbevétele és bevételek");
         fokonyviSzamChoiceBox.setItems(fokonyvLista);
         fokonyviSzamChoiceBox.setValue(fokonyvLista.get(0));
 
@@ -188,7 +193,7 @@ public class SzamlaController {
     }
 
     public void megseAction(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/indito.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/szamlak.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
@@ -210,10 +215,10 @@ public class SzamlaController {
             hibasAdatLabel.setText("Hiányzó adat!");
         }
         else {
-            if (ugyfelLabel.equals("Módosítás")) {
+            if (!ugyfelLabel.getText().equals("Módosítás")) {
                 UgyfelSzamla ugyfelSzamla = UgyfelSzamla.builder()
                         .ugyfel(aktualisUgyfel)
-                        .bejovo(bejovoRadioButton.isSelected())
+                        .irany(bejovoRadioButton.isSelected() ? "bejövő" : "kimenő")
                         .bizonylatszam(bizonylatszamTextField.getText())
                         .kelte(kelteDatePicker.getValue())
                         .teljesites(teljesitesDatePicker.getValue())
@@ -232,7 +237,7 @@ public class SzamlaController {
                 ugyfelSzamlaDao.persist(ugyfelSzamla);
             }
             else {
-                modositandoUgyfelSzamla.setBejovo(bejovoRadioButton.isSelected());
+                modositandoUgyfelSzamla.setIrany(bejovoRadioButton.isSelected() ? "bejövő" : "kimenő");
                 modositandoUgyfelSzamla.setBizonylatszam(bizonylatszamTextField.getText());
                 modositandoUgyfelSzamla.setKelte(kelteDatePicker.getValue());
                 modositandoUgyfelSzamla.setTeljesites(teljesitesDatePicker.getValue());

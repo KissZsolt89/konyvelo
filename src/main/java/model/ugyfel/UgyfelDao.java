@@ -19,7 +19,7 @@ public class UgyfelDao extends GenericJpaDao<Ugyfel> {
     public static UgyfelDao getInstance() {
         if (instance == null) {
             instance = new UgyfelDao();
-            instance.setEntityManager(Persistence.createEntityManagerFactory("konyvelo-mysql").createEntityManager());
+            instance.setEntityManager(Persistence.createEntityManagerFactory("konyvelo").createEntityManager());
         }
         return instance;
     }

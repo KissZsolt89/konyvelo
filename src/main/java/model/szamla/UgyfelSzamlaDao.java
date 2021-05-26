@@ -1,12 +1,9 @@
 package model.szamla;
 
-import com.google.inject.persist.Transactional;
 import jpa.GenericJpaDao;
-import model.ugyfel.Ugyfel;
 
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,7 +18,7 @@ public class UgyfelSzamlaDao extends GenericJpaDao<UgyfelSzamla> {
     public static UgyfelSzamlaDao getInstance() {
         if (instance == null) {
             instance = new UgyfelSzamlaDao();
-            instance.setEntityManager(Persistence.createEntityManagerFactory("konyvelo-mysql").createEntityManager());
+            instance.setEntityManager(Persistence.createEntityManagerFactory("konyvelo").createEntityManager());
         }
         return instance;
     }

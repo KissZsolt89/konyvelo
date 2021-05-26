@@ -12,6 +12,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import model.szamla.UgyfelSzamlaDao;
 import model.ugyfel.Ugyfel;
 import model.ugyfel.UgyfelDao;
 
@@ -102,7 +103,9 @@ public class UgyfelekController {
                     ugyfelDao.findByNev(ugyfelekTable.getSelectionModel().getSelectedItem().getNev());
 
             if (!optionalUgyfel.isEmpty()) {
-                Ugyfel torlendoUgyfel = optionalUgyfel.get();
+                UgyfelSzamlaDao ugyfelSzamlaDao = UgyfelSzamlaDao.getInstance();
+                ugyfelSzamlaDao.findAllByNev(optionalUgyfel.get().getNev())
+                        .stream().forEach(s -> ugyfelSzamlaDao.remove(s));
                 ugyfelDao.remove(optionalUgyfel.get());
                 initializeTable();
             }

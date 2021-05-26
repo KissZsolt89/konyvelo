@@ -1,15 +1,10 @@
 package jpa;
 
-import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Optional;
 
-import javax.inject.Inject;
-
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-
-import com.google.inject.persist.Transactional;
 
 public abstract class GenericJpaDao<T> {
 
