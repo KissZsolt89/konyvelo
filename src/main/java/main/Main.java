@@ -3,11 +3,9 @@ package main;
 import javafx.application.Application;
 import model.szamla.UgyfelSzamla;
 import model.szamla.UgyfelSzamlaDao;
-import model.tetel.Tetel;
 import model.ugyfel.Ugyfel;
 import model.ugyfel.UgyfelDao;
 
-import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,19 +15,21 @@ public class Main {
 
     public static void main(String[] args) {
 
-        //tesztFeltoltes(200);
+        //randomFeltoltes(500);
 
         Application.launch(KonyveloApplication.class, args);
     }
 
-    private static void tesztFeltoltes(int darabszam) {
+    private static void randomFeltoltes(int darabszam) {
 
         UgyfelDao ugyfelDao = UgyfelDao.getInstance();
         UgyfelSzamlaDao ugyfelSzamlaDao = UgyfelSzamlaDao.getInstance();
 
+        Random r = new Random();
+
         Ugyfel ugyfel = Ugyfel.builder()
-                .nev("Prezentáló Kft.")
-                .adoszam("88888888-8-88")
+                .nev("Prezi " + r.nextInt(10000) + " Kft.")
+                .adoszam((10000000 + r.nextInt(10000000)) + "-8-88")
                 .cim("4800 Vásárosnamény, Bocskai utca 88.")
                 .build();
 
@@ -68,7 +68,7 @@ public class Main {
         partnerLista.add("Eper Kft.");
         partnerLista.add("Egres Bt.");
 
-        Random r = new Random();
+        List<UgyfelSzamla> ugyfelSzamlaLista = new ArrayList<>();
 
         for (int i = 0; i < darabszam; i++) {
 
@@ -95,7 +95,8 @@ public class Main {
                     .brutto(nettoOsszeg+afaOsszeg)
                     .build();
 
-            ugyfelSzamlaDao.persist(ugyfelSzamla);
+            ugyfelSzamlaLista.add(ugyfelSzamla);
         }
+        ugyfelSzamlaDao.persistAll(ugyfelSzamlaLista);
     }
 }

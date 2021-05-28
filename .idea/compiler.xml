@@ -11,7 +11,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="konyvelo" target="15" />
+      <module name="konyvelo" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>

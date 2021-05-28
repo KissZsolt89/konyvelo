@@ -61,66 +61,25 @@ public class KivonatController {
 
         ugyfelLabel.setText(ugyfel.getNev());
 
+        List<Tetel> lista;
+
         switch (text) {
-            case "Főkönyvi kivonat" : fokonyviKivonat(ugyfel);
-            case "ÁFA-analitika" : afaAnalitika(ugyfel);
-            case "Vevő-analitika" : vevoAnalitika(ugyfel);
-            case "Szállító-analitika" : szallitoAnalitika(ugyfel);
-        }
-    }
-
-    private void fokonyviKivonat(Ugyfel ugyfel) {
-        ugyfelSzamlaDao.findByNev_fokonyviSzam(ugyfel.getNev());
-
-
-        List<Tetel> tetelLista = ugyfelSzamlaDao.findByNev_fokonyviSzam(ugyfel.getNev());
-
-        for (int i = 1; i < tetelLista.size(); i++) {
-
-            if (tetelLista.get(i).getTetelNev()
-                    .equals(tetelLista.get(i - 1).getTetelNev())) {
-
-                tetelLista.get(i - 1).setBevetel(tetelLista.get(i - 1).getBevetel()
-                        + tetelLista.get(i).getBevetel());
-
-                tetelLista.get(i - 1).setKiadas(tetelLista.get(i - 1).getKiadas()
-                        + tetelLista.get(i).getKiadas());
-
-                tetelLista.get(i - 1).setEgyenleg(tetelLista.get(i - 1).getBevetel()
-                        - tetelLista.get(i - 1).getKiadas());
-
-                tetelLista.remove(i);
-            }
+            case "ÁFA-analitika" :
+                lista = ugyfelSzamlaDao.findAllByNev_afaAnalitika(ugyfel.getNev());
+                break;
+            case "Vevő-szállító-analitika" :
+                lista = ugyfelSzamlaDao.findAllByNev_vevoSzallitoAnalitika(ugyfel.getNev());
+                break;
+            default :
+                lista = ugyfelSzamlaDao.findAllByNev_fokonyviSzam(ugyfel.getNev());
         }
 
         ObservableList<Tetel> observableTetelLista = FXCollections.observableArrayList();
-        observableTetelLista.addAll(tetelLista);
+        observableTetelLista.addAll(lista);
 
         kivonatTable.setItems(observableTetelLista);
 
-        List<Integer> bevetelLista = new ArrayList<>();
-        tetelLista.stream().forEach(s -> bevetelLista.add(s.getBevetel()));
-        List<Integer> kiadasLista = new ArrayList<>();
-        tetelLista.stream().forEach(s -> kiadasLista.add(s.getKiadas()));
-        List<Integer> egyenlegLista = new ArrayList<>();
-        tetelLista.stream().forEach(s -> egyenlegLista.add(s.getEgyenleg()));
-
-        egyenlegLabel.setText("Összes bevétel: " + listaOsszeado(bevetelLista)
-                + "   Összes kiadás: " + listaOsszeado(kiadasLista)
-                + "   Egyenleg: " + listaOsszeado(egyenlegLista));
-   }
-
-
-    private void afaAnalitika(Ugyfel ugyfel) {
-
-    }
-
-    private void vevoAnalitika(Ugyfel ugyfel) {
-
-    }
-
-    private void szallitoAnalitika(Ugyfel ugyfel) {
-
+        egyenlegLabel.setText(egyenlegSzamolo(lista));
     }
 
     public void visszaAction(ActionEvent actionEvent) throws IOException {
@@ -130,7 +89,21 @@ public class KivonatController {
         stage.show();
     }
 
-    private int listaOsszeado (List<Integer> lista) {
+    public String egyenlegSzamolo(List<Tetel> lista) {
+        List<Integer> bevetelLista = new ArrayList<>();
+        List<Integer> kiadasLista = new ArrayList<>();
+        List<Integer> egyenlegLista = new ArrayList<>();
+
+        lista.stream().forEach(s -> {bevetelLista.add(s.getBevetel());
+            kiadasLista.add(s.getKiadas());
+            egyenlegLista.add(s.getEgyenleg()); });
+
+        return "Összes bevétel: " + listaOsszeado(bevetelLista)
+                + "   Összes kiadás: " + listaOsszeado(kiadasLista)
+                + "   Egyenleg: " + listaOsszeado(egyenlegLista);
+    }
+
+    public int listaOsszeado (List<Integer> lista) {
         return lista.stream().reduce(0, Integer::sum);
     }
 }

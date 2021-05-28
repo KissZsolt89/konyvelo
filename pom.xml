@@ -42,7 +42,7 @@
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.hibernate</groupId>
+			<groupId>org.hibernate.orm</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
 			<version>6.0.0.Alpha7</version>
 			<scope>compile</scope>
@@ -57,12 +57,6 @@
 			<groupId>org.glassfish</groupId>
 			<artifactId>javax.el</artifactId>
 			<version>3.0.1-b12</version>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<version>1.4.200</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
@@ -96,6 +90,12 @@
 		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.8.0-M1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>
 			<version>5.8.0-M1</version>
 			<scope>test</scope>
@@ -113,58 +113,10 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.hibernate.validator</groupId>
-			<artifactId>hibernate-validator</artifactId>
-			<version>6.0.19.Final </version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.glassfish</groupId>
 			<artifactId>jakarta.el</artifactId>
 			<version>3.0.3</version>
 			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>29.0-jre</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.google.inject</groupId>
-			<artifactId>guice</artifactId>
-			<version>4.2.3</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.google.inject.extensions</groupId>
-			<artifactId>guice-persist</artifactId>
-			<version>4.2.3</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<version>1.4.200</version>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-core</artifactId>
-			<version>2.13.1</version>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>1.18.20</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.github.javafaker</groupId>
-			<artifactId>javafaker</artifactId>
-			<version>1.0.2</version>
-			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 	<build>
@@ -256,18 +208,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.5</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+
 			<plugin>
 				<groupId>org.openclover</groupId>
 				<artifactId>clover-maven-plugin</artifactId>
@@ -292,23 +233,4 @@
 			<filter>db.properties</filter>
 		</filters>
 	</build>
-	<reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.0.1</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jxr-plugin</artifactId>
-				<version>3.0.0</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-report-plugin</artifactId>
-				<version>3.0.0-M4</version>
-			</plugin>
-		</plugins>
-	</reporting>
 </project>

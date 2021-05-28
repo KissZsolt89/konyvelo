@@ -54,8 +54,7 @@
             <items>
                 <MenuItem mnemonicParsing="false" onAction="#kivonatAction" text="Főkönyvi kivonat" />
               <MenuItem mnemonicParsing="false" onAction="#kivonatAction" text="ÁFA-analitika" />
-                  <MenuItem mnemonicParsing="false" onAction="#kivonatAction" text="Vevő-analitika" />
-                  <MenuItem mnemonicParsing="false" onAction="#kivonatAction" text="Szállító-analitika" />
+                  <MenuItem mnemonicParsing="false" onAction="#kivonatAction" text="Vevő-szállító-analitika" />
             </items>
           </Menu>
         </menus>
