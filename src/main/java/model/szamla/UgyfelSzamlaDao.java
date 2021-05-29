@@ -64,7 +64,7 @@ public class UgyfelSzamlaDao extends GenericJpaDao<UgyfelSzamla> {
 
     public List<Tetel> findAllByNev_afaAnalitika(String nev) {
         return objectToTetelList(entityManager.createQuery(
-                "SELECT afaTipus, irany, sum(brutto) FROM UgyfelSzamla u WHERE u.ugyfel.nev = :nev "
+                "SELECT afaTipus, irany, sum(afa) FROM UgyfelSzamla u WHERE u.ugyfel.nev = :nev "
                         + "GROUP BY afaTipus, irany ORDER BY afaTipus DESC"
                 , Object[].class)
                 .setParameter("nev", nev)
